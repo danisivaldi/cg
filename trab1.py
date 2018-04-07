@@ -1,13 +1,15 @@
 from tkinter import *
+import time
 import math
 
 def setup_image(w,h):            # faz um canvas e uma imagem que podemos pintar por cima de tamanho w por h
     master = Tk()
-    canvas = Canvas(master, width = w, height = h)
+    canvas = Canvas(master, width = w, height = h, bg = "#FFFFFF")
     canvas.pack()
     img = PhotoImage(width = w, height = h)
     canvas.create_image((w/2),(h/2), image = img)
     return img
+
 
 def paint(x,y,w,h,img):                         # pinta nos oito octantes
 
@@ -20,13 +22,28 @@ def paint(x,y,w,h,img):                         # pinta nos oito octantes
     img.put("#000000",((w//2)+y,(h//2)-x))
     img.put("#000000",((w//2)-y,(h//2)-x))
 
-def tradicional(r,w,h,img):                 # pintando só quando é numero inteiro
-    for x in range(h):
-        for y in range(w):
-            if (x ** 2 + y ** 2 == r ** 2):
-                paint(x,y,w,h,img)
 
-#def polar(r,w,h,img):
+def tradicional(r,w,h,img):
+    x = -r
+    y = 0
+    
+    while x <= r:
+        y = int(math.sqrt(r ** 2 - x ** 2))
+        paint(x,y,w,h,img)
+        y = int(-1 * math.sqrt(r ** 2 - x ** 2))
+        paint(x,y,w,h,img)
+        x = x + 1
+
+
+def polar(r,w,h,img):
+    teta = 0
+
+    while teta <= 360:
+        x = int(r * math.cos(teta))
+        y = int(r * math.sin(teta))
+        paint(x,y,w,h,img)
+        teta = teta + 1
+
 
 def medium_point(r,w,h,img):
     x = 0
@@ -46,9 +63,26 @@ def medium_point(r,w,h,img):
 
         paint(x,y,w,h,img)
 
-w = h = 800
+
+inicio = time.time()
+
+w = h = 3000
 img = setup_image(w,h)
-medium_point(100,w,h,img)
-#tradicional(100,w,h,img)
+
+print("digite o raio: ")
+r = int(input())
+
+print("digite:\n1-algoritmo do ponto médio\n2-algorimo tradicional\n3-algoritmo usando coordenadas polares")
+op = int(input())
+
+if op == 1:
+    medium_point(r,w,h,img)
+elif op == 2:
+    tradicional(r,w,h,img)
+else:
+    polar(r,w,h,img)
+
+print("tempo de execução: " + str(time.time() - inicio))
 
 mainloop()
+
