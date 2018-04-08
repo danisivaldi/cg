@@ -5,9 +5,9 @@ def cria_testes(n, alg):
         arq.close()
 
 def main():
-    cria_testes(15, 1)
-    cria_testes(15, 2)
-    cria_testes(15, 3)
+    cria_testes(14, 1)
+    cria_testes(14, 2)
+    cria_testes(14, 3)
 
 if __name__ == '__main__':
     main()
