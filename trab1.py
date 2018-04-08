@@ -64,25 +64,34 @@ def medium_point(r,w,h,img):
         paint(x,y,w,h,img)
 
 
-inicio = time.time()
+def main():
 
-w = h = 3000
-img = setup_image(w,h)
+    inicio = time.time()
+    w = h = 3000
 
-print("digite o raio: ")
-r = int(input())
+    img = setup_image(w,h)
 
-print("digite:\n1-algoritmo do ponto médio\n2-algorimo tradicional\n3-algoritmo usando coordenadas polares")
-op = int(input())
+    print("digite o raio: ")
+    r = int(input())
 
-if op == 1:
-    medium_point(r,w,h,img)
-elif op == 2:
-    tradicional(r,w,h,img)
-else:
-    polar(r,w,h,img)
+    print("digite:\n1-algoritmo do ponto médio\n2-algorimo tradicional\n3-algoritmo usando coordenadas polares")
+    op = int(input())
 
-print("tempo de execução: " + str(time.time() - inicio))
+    if op == 1:
+        for i in range(100):             # chama a função 100 vezes em cada configuração
+            medium_point(r,w,h,img)
+            print(i)
+    elif op == 2:
+        for i in range(100):
+            tradicional(r,w,h,img)
+            print(i)
+    else:
+        for i in range(100):
+            polar(r,w,h,img)
+            print(i)
 
-mainloop()
+    print("tempo de execução: " + str(time.time() - inicio))
+
+if __name__ == '__main__':
+    main()
 
