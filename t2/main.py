@@ -9,13 +9,9 @@ scalex = scaley = scalez = 1.0
 # Posicionamento do objeto
 x_pos = y_pos = z_pos = 0.0
 
-
 # Posição e velocidade de rotação
 obj = 0.0
 obj_speed = 10.0
-center = 0.0
-center_speed = -5.0
-
 
 def main():
     
@@ -47,15 +43,19 @@ def display():
     glMatrixMode(GL_PROJECTION)
     glLoadIdentity()
     
-    glOrtho(-2.0, 2.0, -2.0, 2.0, -2.0, 2.0) # Definição da projeção ortogonal
+    # Definição da projeção ortogonal
+    glOrtho(-2.0, 2.0, -2.0, 2.0, -2.0, 2.0)
     
-    glColor3f(0.9, 0.3, 0.2) # Cores do objeto
-    #    glRotatef(90.0, 0.0, 1.0, 0.0)
+    # Cores do objeto
+    glColor3f(0.9, 0.3, 0.2)
+    
     glTranslatef(x_pos, y_pos, z_pos)
     glScalef(scalex, scaley, scalez)
     glRotate(obj, 0.0, 0.0, 1.0)
     
-    glutWireTeapot(0.5) # Projeta a figura
+    # Projeta a figura
+    if format == TEAPOT
+    glutWireTeapot(0.5)
     
     #    glutWireTorus(1.0, 3.0, 30, 30) # Projeta a figura
     
@@ -63,12 +63,14 @@ def display():
 
 def keyPressed(key, x, y):
     
-    key = key.decode("utf-8") # Conversão da tecla para UTF8
+    # Conversão da tecla para UTF8
+    key = key.decode("utf-8")
     
-    global scalex, scaley, scalez, obj, obj_speed, center, center_speed
+    global scalex, scaley, scalez, obj, obj_speed
     
+    # Saída do programa
     if key == 'q':
-        exit() # Saída do programa
+        exit()
     
     # Aumenta a escala do objeto
     elif key == 'i':
@@ -84,14 +86,16 @@ def keyPressed(key, x, y):
         scalex = scalex * -1
     elif key == 'x':
         scaley = scaley * -1
-
+            
+    # Rotação anti-horária
     elif key == 'r':
         obj = obj + obj_speed
-        center = center + center_speed
         obj =  obj % 360
-        center = center % 360
 
-
+    # Rotação horária
+    elif key == 't':
+        obj = obj - obj_speed
+        obj =  obj % 360
     
     glutPostRedisplay()
 
