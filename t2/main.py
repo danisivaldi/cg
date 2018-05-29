@@ -13,6 +13,13 @@ x_pos = y_pos = z_pos = 0.0
 obj = 0.0
 obj_speed = 10.0
 
+# Definição dos formatos de objetos
+TEAPOT = 1
+TORUS = 2
+CONE = 3
+
+format = TEAPOT
+
 def main():
     
     w = h = 3000 # Dimensões da janela
@@ -26,6 +33,7 @@ def main():
     glutKeyboardFunc(keyPressed) # Manipulação das teclas pressionadas
     glutSpecialFunc(specialKeyPressed) # Manipulação de teclas especiais
     glutMainLoop()
+
 
 def display():
     
@@ -54,19 +62,22 @@ def display():
     glRotate(obj, 0.0, 0.0, 1.0)
     
     # Projeta a figura
-    if format == TEAPOT
-    glutWireTeapot(0.5)
-    
-    #    glutWireTorus(1.0, 3.0, 30, 30) # Projeta a figura
-    
+    if format == TEAPOT:
+        glutWireTeapot(0.5)
+    elif format == TORUS:
+        glutWireTorus(0.25, 0.75, 50, 50)
+    elif format == CONE:
+        glutWireCone(0.5, 1.5, 50, 25)
+
     glutSwapBuffers()
+
 
 def keyPressed(key, x, y):
     
     # Conversão da tecla para UTF8
     key = key.decode("utf-8")
     
-    global scalex, scaley, scalez, obj, obj_speed
+    global scalex, scaley, scalez, obj, obj_speed, format
     
     # Saída do programa
     if key == 'q':
@@ -86,7 +97,7 @@ def keyPressed(key, x, y):
         scalex = scalex * -1
     elif key == 'x':
         scaley = scaley * -1
-            
+    
     # Rotação anti-horária
     elif key == 'r':
         obj = obj + obj_speed
@@ -96,8 +107,17 @@ def keyPressed(key, x, y):
     elif key == 't':
         obj = obj - obj_speed
         obj =  obj % 360
+
+    # Mudança do formato do objeto
+    elif key == '1':
+        format = TEAPOT
+    elif key == '2':
+        format = TORUS
+    elif key == '3':
+        format = CONE
     
     glutPostRedisplay()
+
 
 def specialKeyPressed(key, x, y):
     
