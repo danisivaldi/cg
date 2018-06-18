@@ -20,6 +20,46 @@ CONE = 3
 
 format = TEAPOT
 
+# Propriedades do material
+def setMaterial() :
+    no_mat = [ 0.0, 0.0, 0.0, 1.0 ]
+    mat_diffuse = [ 0.1, 0.5, 0.8, 1.0 ]
+    mat_specular = [ 1.0, 1.0, 1.0, 1.0 ]
+    high_shininess = [ 100.0 ]
+
+    glMaterialfv(GL_FRONT, GL_AMBIENT, no_mat);
+    glMaterialfv(GL_FRONT, GL_DIFFUSE, mat_diffuse);
+    glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
+    glMaterialfv(GL_FRONT, GL_SHININESS, high_shininess);
+    glMaterialfv(GL_FRONT, GL_EMISSION, no_mat);
+
+
+# Inicializa a luz
+def initLighting() :
+    # Informa que irá utilizar iluminação    
+    glEnable(GL_LIGHTING)
+    # Liga a luz
+    glEnable(GL_LIGHT0)
+    # Informa que irá utilizar as cores do material
+    glEnable(GL_COLOR_MATERIAL)
+
+
+# Posição da luz
+def setLight() :
+    light_position = [10.0, 10.0, -20.0, 0.0]
+    ligth_ambient = [0.2, 0.2, 0.2, 1.0]
+    light_difuse = [0.7, 0.7, 0.7, 1.0]
+    light_specular = [0.7, 0.7, 0.7, 1.0]
+
+
+    glLightfv(GL_LIGHT0, GL_POSITION, light_position)
+    glLightModelfv(GL_LIGHT_MODEL_AMBIENT, ligth_ambient)
+    glLightfv(GL_LIGHT0, GL_POSITION, light_position)
+    glLightfv(GL_LIGHT0, GL_AMBIENT, ligth_ambient)
+    glLightfv(GL_LIGHT0, GL_DIFFUSE, light_difuse)
+    glLightfv(GL_LIGHT0, GL_SPECULAR, light_specular)
+
+
 def main():
     
     w = h = 3000 # Dimensões da janela
@@ -32,6 +72,9 @@ def main():
     glutDisplayFunc(display) # Exibição do display
     glutKeyboardFunc(keyPressed) # Manipulação das teclas pressionadas
     glutSpecialFunc(specialKeyPressed) # Manipulação de teclas especiais
+
+    initLighting()
+
     glutMainLoop()
 
 
@@ -43,24 +86,28 @@ def display():
     # Define a matriz como model view e carrega
     glMatrixMode(GL_MODELVIEW)
     glLoadIdentity()
-    
+
     # Definição dos pontos de observação
     gluLookAt(1.0, 0.5, 0.5, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0)
     
     # Define a matriz como projeção e carrega
     glMatrixMode(GL_PROJECTION)
     glLoadIdentity()
-    
+
     # Definição da projeção ortogonal
     glOrtho(-2.0, 2.0, -2.0, 2.0, -2.0, 2.0)
+
+    setLight()
+    setMaterial()
+    glShadeModel(GL_FLAT)
     
-    # Cores do objeto
-    glColor3f(0.9, 0.3, 0.2)
-    
+    # Cores do objeto    
+    glColor3f(0.4, 0.9, 0.2)
+
     glTranslatef(x_pos, y_pos, z_pos)
     glScalef(scalex, scaley, scalez)
-    glRotate(obj, 0.0, 0.0, 1.0)
-    
+    glRotate(obj, 0, 0, 1)
+
     # Projeta a figura
     if format == TEAPOT:
         glutWireTeapot(0.5)
@@ -115,7 +162,12 @@ def keyPressed(key, x, y):
         format = TORUS
     elif key == '3':
         format = CONE
-    
+
+    elif key == '5':
+    	rendering = SMOOTH
+    elif key == '6':
+    	rendering = FLAT
+
     glutPostRedisplay()
 
 
