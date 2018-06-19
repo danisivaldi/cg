@@ -20,6 +20,9 @@ CONE = 3
 
 format = TEAPOT
 
+# Rendering inicial
+rendering = GL_SMOOTH
+
 # Propriedades do material
 def setMaterial() :
     no_mat = [ 0.0, 0.0, 0.0, 1.0 ]
@@ -99,7 +102,7 @@ def display():
 
     setLight()
     setMaterial()
-    glShadeModel(GL_FLAT)
+    glShadeModel(rendering)
     
     # Cores do objeto    
     glColor3f(0.4, 0.9, 0.2)
@@ -110,11 +113,11 @@ def display():
 
     # Projeta a figura
     if format == TEAPOT:
-        glutWireTeapot(0.5)
+        glutSolidTeapot(0.5)
     elif format == TORUS:
-        glutWireTorus(0.25, 0.75, 50, 50)
+        glutSolidTorus(0.25, 0.75, 50, 50)
     elif format == CONE:
-        glutWireCone(0.5, 1.5, 50, 25)
+        glutSolidCone(0.5, 1.5, 50, 25)
 
     glutSwapBuffers()
 
@@ -164,9 +167,9 @@ def keyPressed(key, x, y):
         format = CONE
 
     elif key == '5':
-    	rendering = SMOOTH
+    	rendering = GL_SMOOTH
     elif key == '6':
-    	rendering = FLAT
+    	rendering = GL_FLAT
 
     glutPostRedisplay()
 
