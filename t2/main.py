@@ -20,7 +20,6 @@ CONE = 3
 
 format = TEAPOT
 
-# Rendering inicial
 rendering = GL_SMOOTH
 
 # Propriedades do material
@@ -65,6 +64,8 @@ def setLight() :
 
 def main():
     
+#    n = int(input("Digite 1 para Gouraud e 2 para Flat.\n"))
+
     w = h = 3000 # Dimensões da janela
     
     glutInit() # Inicialização do GLUT
@@ -100,12 +101,12 @@ def display():
     # Definição da projeção ortogonal
     glOrtho(-2.0, 2.0, -2.0, 2.0, -2.0, 2.0)
 
+    # Cores do objeto    
+    glColor3f(0.4, 0.9, 0.2)
+    
     setLight()
     setMaterial()
     glShadeModel(rendering)
-    
-    # Cores do objeto    
-    glColor3f(0.4, 0.9, 0.2)
 
     glTranslatef(x_pos, y_pos, z_pos)
     glScalef(scalex, scaley, scalez)
@@ -127,7 +128,7 @@ def keyPressed(key, x, y):
     # Conversão da tecla para UTF8
     key = key.decode("utf-8")
     
-    global scalex, scaley, scalez, obj, obj_speed, format
+    global scalex, scaley, scalez, obj, obj_speed, format, rendering
     
     # Saída do programa
     if key == 'q':
@@ -167,9 +168,9 @@ def keyPressed(key, x, y):
         format = CONE
 
     elif key == '5':
-    	rendering = GL_SMOOTH
+        rendering = GL_SMOOTH
     elif key == '6':
-    	rendering = GL_FLAT
+        rendering = GL_FLAT
 
     glutPostRedisplay()
 
